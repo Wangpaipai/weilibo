@@ -7,7 +7,7 @@
         </view>
         <view class="addRemind_text">
           <label>日期:</label>
-          <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}" >
+          <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeDateTime1" bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}"  start="{{TIME}}">
       <input type='text'placeholder="选择日期" placeholder-class='RemindInput_placeholder' class="RemindInput dateInput" disabled="true" name='days'value="{{days}}" />
   </picker>
   </view>
@@ -21,7 +21,7 @@
         </view>
         <view class="addRemindPhone addRemind_text" wx:if="{{phoneShow}}">
           <label>手机：</label>
-          <input type='text'placeholder="输入手机号码" placeholder-class='RemindInput_placeholder' class="RemindInput"  value='{{phone}}' disabled="{{disabled}}" maxlength='11' bindblur='PhoneNum' name='phoneNumber' bindinput='thisPhone'/>
+          <input type='number'placeholder="输入手机号码" placeholder-class='RemindInput_placeholder' class="RemindInput"  value='{{phone}}' disabled="{{disabled}}" maxlength='11' bindblur='PhoneNum' name='phoneNumber' bindinput='thisPhone'/>
         </view>
         <!-- 验证码 -->
         <view class="addRemindVerify" wx:if="{{show}}">

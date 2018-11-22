@@ -1,32 +1,29 @@
-function wxLogin(that){
-  wx.getSetting({
-    success(res) {
-      if (res.authSetting['scope.userInfo']){
-        wx.getUserInfo({
-          success: function (res) {
-            return res;
-          },
-          fail: function (err) {
-            return openLogin(that);
-          }
-        })
-      }else{
-
-      }
+function wxLogin(that,param){
+  wx.request({
+    url: 'https://libo.mx5918.com/api/user/login', //仅为示例，并非真实的接口地址
+    data: param,
+    header: {
+      'content-type': 'application/json' // 默认值
     },
-    fail:function(err){
-      console.log(123);
-    }
-  })
-}
-
-function openLogin(that){
-  wx.openSetting({
     success(res) {
-      if (res.authSetting['scope.userInfo']){
-        return wxLogin(that);
+      if (res.data.status){
+        wx.setStorage({
+          key: "user",
+          data: res.data.data,
+          success:function(){
+            //授权成功后，跳转进入小程序首页
+            wx.reLaunch({
+              url: '/pages/index/index'
+            })
+          }
+        });
       }else{
-        return openLogin(that);
+        wx.showModal({
+          title: '提示',
+          content: res.data.msg,
+          showCancel: false,
+          confirmText: '返回授权'
+        })
       }
     }
   })
@@ -46,33 +43,27 @@ Page({
    */
   onLoad: function (options) {
     var that =this;
-
     wx.login({
       success(res) {
         var code = res.code;
-        var param = wxLogin(that);
-        //var rawData = param.rawData;
-        //var signature = param.signature;
-        //var encryptedData = param.encryptedData;
-        //var iv = param.iv;
-        //if (code) {
-        //  //发起网络请求
-        //  wx.request({
-        //    url: 'https://libo.mx5918.com/api/user/login',
-        //    data: {
-        //      code: code,
-        //      rawData: rawData,
-        //      signature: signature,
-        //      iv: iv,
-        //      encryptedData: encryptedData
-        //    }
-        //  })
-        //} else {
-        //  console.log('登录失败！' + res.errMsg)
-        //}
-      },
-      fail: function (err) {
-        console.log(err);
+        wx.getSetting({
+          success: function (res) {
+            if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                success: function (res) {
+                  var param = {
+                    code: code,
+                    encryptedData: res.encryptedData,
+                    iv: res.iv,
+                    rawData: res.rawData,
+                    signature: res.signature
+                  };
+                  wxLogin(that,param);
+                }
+              });
+            }
+          }
+        })
       }
     })
   },
@@ -88,5 +79,37 @@ Page({
    */
   onShow: function () {
 
+  },
+  bindGetUserInfo: function (e) {
+    var that = this;
+    if (e.detail.userInfo) {
+      //用户按了允许授权按钮
+      //插入登录的用户的相关信息到数据库
+
+      wx.login({
+        success(res) {
+          var code = res.code;
+          var wxData = e.detail;
+          var param = {
+            code:code,
+            encryptedData: wxData.encryptedData,
+            iv: wxData.iv,
+            rawData: wxData.rawData,
+            signature: wxData.signature
+          };
+          wxLogin(that, param);
+        }
+      })
+    } else {
+      //用户按了拒绝按钮
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function (res) {
+        }
+      })
+    }
   }
 })

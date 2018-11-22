@@ -8,7 +8,7 @@
         </view>
         <view class="addPrensentMoney addPrensent_text">
           <label>金额：</label>
-          <input type='number'placeholder="输入金额" placeholder-class='prensentInput_placeholder' class="prensentInput" name="money" value='{{money}}'/>
+          <input type='digit'placeholder="输入金额" placeholder-class='prensentInput_placeholder' class="prensentInput" name="money" value='{{money}}'/>
         </view>
         <view class="addPrensentDays addPrensent_text">
           <label>日期：</label>

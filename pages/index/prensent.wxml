@@ -1,10 +1,10 @@
 <!--pages/index/prensent.wxml-->
 <view class="container">
     <!-- 搜索 -->
-  <view class="search" url='../search/search'>
-    <navigator class='nav_btn'>
+  <view class="search">
+    <navigator class='nav_btn' hover-class="none" url='../search/search'>
       <image src='../../images/sousuo2.png'></image>
-      <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder'class="searchText"/>
+      <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder'class="searchText" disabled='true'/>
     </navigator>
   </view>
   <!-- 送礼统计 -->
@@ -27,6 +27,25 @@
         </view>
     </view>
   </view>
+  <!-- +++++++++++++++++++++ -->
+  <scroll-view scroll-y="true" style="height:{{windowHeight}}rpx;"  scroll-into-view="{{toView}}" scroll-top="0">
+  <view wx:for="{{userInfo}}" wx:for-item="item"> 
+    <view class="search-english" id="a">
+      {{item.ENG}}
+    </view >
+    <view class="search-car" wx:for="{{item.data}}" wx:for-item="this" wx:for-index="{{userInfo.index}}" bindtap="showRequire" >
+      <view class="search_name">{{this.name}}</view>
+      <view class='search_money'>￥{{this.money}}</view>
+      <view class='search_matter'>{{this.matter}}</view>
+      <view class='search_date'>{{this.date}}</view>
+   </view>
+    </view>
+</scroll-view>
+<view class="index-english" style="top:{{indexTop}}rpx">
+  <view wx:for="{{arrId}}" wx:for-item="i" id="{{i}}" catchtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend">{{i}}</view>
+</view>
+<view class="index-name" wx:if="{{indexShow}}" >{{indexEnglish}}</view>
+  <!-- ===================== -->
   <!-- 添加按钮 -->
   <view class="addBtn">
     <navigator url='addPrensent' hover-class="none"><image src='../../images/shouye_tj.png'></image></navigator>

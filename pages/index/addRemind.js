@@ -1,11 +1,15 @@
 // pages/index/addRemind.js
 var dateTimePicker = require('../../utils/dateTimePicker.js');
+var nowDate=require("../../utils/util.js");
+var TIME = nowDate.formatTime(new Date());
+console.log(TIME);
 var name, days, matter, site, phone, time;
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    TIME:"",
     // 验证码样式
     style:"",
     color:"#fff",
@@ -41,11 +45,10 @@ Page({
     let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
     let thisName = e.detail.value["name"];
     let phoneNumber = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    let thisPhone = e.detail.value["phone"];
+    let thisPhone = e.detail.value.phoneNumber;
     name = e.detail.value["name"].length;
     matter = e.detail.value["matter"].length;
     days = e.detail.value["days"].length;
-    site = e.detail.value["address"].length;
     phone = e.detail.value["phoneNumber"].length;
     if (days  == 0 || matter == 0  || name == 0 ){
       wx.showToast({
@@ -53,18 +56,19 @@ Page({
         image: '../../images/error.png'
       })
       return;
-      if (phone != 0) {
-       console.log(phone)
-       if (phoneNumber.test(thisPhone) || phone != 11) {
-         wx.showToast({
-           title: '手机格式不正确',
-           image: '../../images/error.png'
-         })
-         return;
-       }
-     }
-    }
-    else if (!userName.test(thisName)){
+    }else if (phone != 11) {
+        wx.showToast({
+          title: '手机格式不正确',
+          image: '../../images/error.png'
+        })
+        return;
+      } else if (!phoneNumber.test(thisPhone)) {
+        wx.showToast({
+          title: '手机格式不正确',
+          image: '../../images/error.png'
+        })
+        return;
+    }else if (!userName.test(thisName)){
       wx.showToast({
         title: '姓名格式有误',
         image: '../../images/error.png'
@@ -76,6 +80,15 @@ Page({
         image: '../../images/error.png'
       })
       return;
+    } else if (site == 0) {
+      this.setData({
+        siteShow: false
+      })
+    } else if (phone == 0) {
+      this.setData({
+        phoneShow: false,
+        show: false
+      })
     }else {
       this.setData({
         createShow: false,
@@ -92,17 +105,6 @@ Page({
       })
       wx.redirectTo({
         url: 'remind'
-      })
-    }
-    if (site==0){
-      this.setData({
-        siteShow: false
-      })
-    }
-    if(phone==0){
-      this.setData({
-        phoneShow: false,
-        show:false
       })
     }
   },
@@ -160,6 +162,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      TIME: TIME
+    })
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
     var obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
@@ -193,7 +198,8 @@ Page({
     })
   },
   changeDateTimeColumn1(e) {
-    var arr = this.data.dateTime1, dateArr = this.data.dateTimeArray1;
+    var arr = this.data.dateTime1, 
+    dateArr = this.data.dateTimeArray1;
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
     this.setData({

@@ -1,7 +1,9 @@
 
 <view wx:if="{{canIUse}}">
     <view class='header'>
-        <open-data type="userAvatarUrl"></open-data>
+      <view>
+        <open-data class="headImg" type="userAvatarUrl"></open-data>      
+      </view>
     </view>
  
     <view class='content'>
