@@ -1,0 +1,122 @@
+/* pages/index/addPrensent.wxss */
+button{
+  outline: none;
+}
+.addPrensentDet{
+  width:664rpx;
+  height: 1059rpx;
+  background:#fff;
+  box-shadow:0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius:10px;
+  margin: 0 auto;
+  margin-top:20rpx; 
+  padding-top: 10rpx;
+}
+.addPrensentDetils view label{
+  display: block;
+  flex: 3;
+  font-size: 36rpx;
+}
+.prensentInput_placeholder{
+  color: #999;
+  font-size: 36rpx;
+}
+.prensentInput,picker{
+  flex: 7;
+  font-size: 36rpx;
+  height: 100%;
+}
+.addPrensent_text{
+  display: flex;
+  flex-direction: row;
+  width: 510rpx;
+  height: 60rpx;
+  border-bottom: 1px solid #f5f5f5;
+  margin: 77rpx auto 60rpx auto;
+}
+.addPrensent_text label{
+  display: block;
+  flex: 3;
+  font-size: 36rpx;
+}
+.prensentInput_placeholder{
+  color: #999;
+  font-size: 36rpx;
+}
+.prensentInput{
+  color: #F53636;
+}
+.addPrensentChangeBtn{
+  width: 510rpx;
+  height: 44rpx;
+  margin: 0 auto;
+  margin-top: 38rpx;
+}
+.changeBtn{
+  width: 88rpx;
+  height: 44rpx;
+  margin-left: 21rpx;
+  background: #f5f5f5;
+  font-size: 26rpx;
+  color:#999;
+  float: left;
+  text-align: center;
+  line-height: 44rpx;
+}
+.change1{
+  margin-left: 94rpx;
+}
+.unChange{
+  background: #f5f5f5;
+  color:#999;
+}
+.changeStyle{
+  color:#fff;
+  background: #F53636;
+}
+/* 按钮 */
+.prensentBtn{
+  width: 460rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 36rpx;
+  background:#F53636;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 80rpx;
+  margin-bottom: 0;
+}
+.prensentBtn text{
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-align: center;
+  color:#fff;
+}
+.prensentBtn_Del{
+  margin-top: 40rpx;
+  color:#999;
+  background: #e5e5e5;
+}
+/* 弹出框 */
+.delPrensent{
+  position: relative;
+}
+.delPrensentImg{
+  width: 195rpx;
+  height: 54rpx;
+  position: absolute;
+  top: 10rpx;
+  left: 2rpx;
+}
+.delPrensentImg image{
+  width: 100%;
+  height: 100%;
+}
+.delPrensentText{
+  width: 250rpx;
+  height: 82rpx;
+  margin: 82rpx auto;
+  font-size: 30rpx;
+  color: #333;
+}

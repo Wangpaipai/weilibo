@@ -1,0 +1,121 @@
+/* pages/index/feast.wxss */
+.search{
+  width:710rpx;
+  height:80rpx;
+  box-shadow:0px 3px 5px 0px rgba(0, 0, 0, 0.1),0px -3px 5px 0px rgba(0, 0, 0, 0.1);
+  border-radius:10px;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  margin-top: 20rpx;
+}
+.search image{
+  flex-grow:0; 
+  width:36rpx;
+  height:36rpx;
+  opacity:0.5;
+  margin: 22rpx 20rpx 22rpx 20rpx;
+}
+.searchText{
+  width:635rpx;
+  height:100%;
+  font-size:30rpx;
+  font-family:PingFang-SC-Medium;
+  font-weight:300;
+  color:rgba(153,153,153,0.5);
+  line-height: 80rpx;
+}
+.searchText_placeholder{
+  font-weight: 300;
+  color:rgba(153,153,153,0.5);
+}
+/* 送礼统计 */
+.feastCount{
+  width:710rpx;
+  height:170rpx;
+  background:rgba(245,54,54,1);
+  border-radius:10px;
+  margin: 0 auto;
+  margin-top: 25rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color:#fff;
+  padding-left: 45rpx;
+}
+.feastCountTop{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  line-height: 85rpx;
+}
+.Toptitle{
+  flex-grow: 0;
+  height: 100%;
+}
+.Toptime{
+  flex-grow: 0;
+  height: 100%;
+}
+.Toptime image{
+  width: 18rpx;
+  height: 18rpx;
+  display: block;
+  float: left;
+  margin-top: 33rpx;
+  margin-right: 9rpx;
+}
+.Toptime text{
+  font-size: 20rpx;
+  float: left;
+}
+.feastCountBottom{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  line-height: 85rpx;
+  font-size: 30rpx;
+  position: relative;
+}
+.moneyCount,.peopleCount{
+  flex-grow: 0;
+  height: 100%;
+
+}
+.peopleCount{
+  margin-left: 45rpx;
+}
+.moneyCount image,.peopleCount image{
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
+  float: left;
+  margin-top: 25rpx;
+  margin-right: 4rpx;
+}
+.moneyCount text,.peopleCount text{
+  float: left;
+}
+.feastCountImageBtn{
+  position: absolute;
+  right: 12rpx;
+  bottom: -3rpx;
+  width: 80rpx;
+  height: 80rpx;
+}
+.feastCountImageBtn image{
+  width: 40rpx;
+  height: 40rpx;
+}
+/* 添加按钮 */
+.addBtn{
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  bottom: 41rpx;
+  right: 325rpx;
+}
+.addBtn navigator{
+  width: 100rpx;
+  height: 100rpx;
+}

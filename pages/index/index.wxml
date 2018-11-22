@@ -1,0 +1,113 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <swiper autoplay='true' interval='3000' duration='500' circular='true' indicator-dots='true' indicator-color='rgba(255,255,255,0.3)' indicator-active-color='rgba(255,255,255,1)'>
+    <view  class="banner" >
+      <swiper-item><a href=""><image src='../../images/banner.png'></image></a></swiper-item>
+      <swiper-item><a href=""><image src='../../images/banner.png'></image></a></swiper-item>
+      <swiper-item><a href=""><image src='../../images/banner.png'></image></a></swiper-item>
+    </view>
+  </swiper>
+  <!-- 搜索 -->
+  <view class="search">
+    <navigator class='nav_btn' url='../search/search'><image src='../../images/sousuo.png'></image>
+      <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder'class="searchText"/>
+    </navigator>
+  </view>
+  <!-- 创建按钮 -->
+  <view class="tixing_btn" wx:if="{{!txHidden}}">
+      <navigator class="nav_btn"  url='addRemind'><image src='../../images/tixing.png'></image><p>创建宴会提醒</p></navigator>
+  </view>
+  <!--提醒详情  -->
+  <view class='tixingDet' wx:else>
+      <navigator class='tx_det_btn' url='remind'><image src='../../images/tixing.png'></image><p>{{name}}(<text class='thisfloat'>{{matter}}</text>)<text>{{timer}}</text></p></navigator>
+      <navigator class='addTx' url='addRemind'><image src='../../images/tjtx.png'></image></navigator>
+  </view>
+  <!-- 收支金额 -->
+  <view class="money">
+    <view class="income">
+      <text>总收金额</text>
+      <p>￥<span>0</span></p>
+    </view>
+    <view class="expend">
+      <text>总支金额</text>
+      <p>￥<span>0</span></p>
+    </view>
+  </view>
+  <!-- 内容 -->
+  <!-- 内容为空 -->
+  <view class="indexContentNull" wx:if="{{!contentHide}}">  
+      <image src="../../images/chuangjian.png"></image>
+      <view class="nullText">
+          <text>赶快创建一个礼簿开启您的便捷生活</text>
+      </view>
+  </view>
+  <!-- 内容不为空 -->
+  <view class="indexContent" wx:else>
+      <view class="contentList" bindtap='navigator'>
+          <view class='contentItem'>
+            <view class="contentItemImage">
+            {{imageText}}
+            </view>
+            <view class="itemText_detils itemText">
+              <text>结婚宴</text>
+              <p><span>358</span>人</p>
+            </view>
+            <view class="itemText_money itemText">
+              <p>￥<span>52014</span></p>
+            </view>
+            <view class="itemText_time itemText">
+              <text>2018.10.19</text>
+            </view>
+          </view>
+          <view class='contentItem'>
+            <view class="contentItemImage">
+            {{imageText}}
+            </view>
+            <view class="itemText_detils itemText">
+              <text>结婚宴</text>
+              <p><span>358</span>人</p>
+            </view>
+            <view class="itemText_money itemText">
+              <p>￥<span>52014</span></p>
+            </view>
+            <view class="itemText_time itemText">
+              <text>2018.10.19</text>
+            </view>
+          </view>
+                    <view class='contentItem'>
+            <view class="contentItemImage">
+            {{imageText}}
+            </view>
+            <view class="itemText_detils itemText">
+              <text>结婚宴</text>
+              <p><span>358</span>人</p>
+            </view>
+            <view class="itemText_money itemText">
+              <p>￥<span>52014</span></p>
+            </view>
+            <view class="itemText_time itemText">
+              <text>2018.10.19</text>
+            </view>
+          </view>
+                    <view class='contentItem'>
+            <view class="contentItemImage">
+            {{imageText}}
+            </view>
+            <view class="itemText_detils itemText">
+              <text>结婚宴</text>
+              <p><span>358</span>人</p>
+            </view>
+            <view class="itemText_money itemText">
+              <p>￥<span>52014</span></p>
+            </view>
+            <view class="itemText_time itemText">
+              <text>2018.10.19</text>
+            </view>
+          </view>
+      </view>
+  </view>
+  <!-- 添加按钮 -->
+  <view class="addBtn">
+    <navigator url='addFeast' hover-class="none"><image src='../../images/shouye_tj.png'></image></navigator>
+  </view>
+</view>

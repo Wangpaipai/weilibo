@@ -1,0 +1,37 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/index/feast",
+    "pages/index/addRemind",
+    "pages/search/search",
+    "pages/index/addPrensent",
+    "pages/index/remind",
+    "pages/Gifts/Gifts",
+    "pages/index/addFeast",
+    "pages/index/prensent"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#B6B8B9",
+    "selectedColor": "#F53636",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "礼薄",
+        "iconPath": "images/1.png",
+        "selectedIconPath": "/images/libo.png"
+      },
+      {
+        "pagePath": "pages/index/prensent",
+        "text": "送礼",
+        "iconPath": "images/ic_songli.png",
+        "selectedIconPath": "images/ic_songl.png"
+      }
+    ]
+  }
+}

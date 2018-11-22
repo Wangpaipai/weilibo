@@ -1,0 +1,101 @@
+/* pages/index/remind.wxss */
+.remindNav{
+  width: 750rpx;
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+}
+.remind{
+  flex: 1;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+.remind text{
+  display: block;
+  width: 86rpx;
+  height: 80rpx;
+  border-bottom: 1px solid #fff;
+  margin: 0 auto;
+}
+.remindContentList{
+  width: 710rpx;
+  margin: 0 auto;
+}
+.remindContentList_StandBy .remindContentItem{
+  background: #F53636;
+}
+.remindContentList_Expired .remindContentItem{
+  background: #ccc;
+}
+.remindContentItem{
+  width: 100%;
+  height: 170rpx;
+  margin-top: 20rpx;
+  border-radius: 10px; 
+}
+.remindContentText{
+  width: 541rpx;
+  float: left;
+  height: 100%;
+  color:#fff;
+}
+.remindContentImage_StandBy{
+  background-image: url("https://libo.mx5918.com/weilibu/images/zhuangshi.png");
+}
+.remindContentImage_Expired{
+  background-image: url("https://libo.mx5918.com/weilibu/images/zhuangshi2.png");
+}
+.remindContentImage_StandBy,.remindContentImage_Expired{
+  float: left;
+  margin-top: 11rpx;
+  height: 147rpx;
+  width: 169rpx;
+  background-repeat: no-repeat;
+  background-size: 146rpx 147rpx;
+}
+.imageMatter_Expired,.imageMatter_StandBy{
+  font-size: 30rpx;
+  line-height: 147rpx;
+  margin-left:40rpx; 
+}
+.imageMatter_StandBy{
+  color:#F53636;
+}
+.imageMatter_Expired{
+  color:#fff;
+}
+.remindContentText view{
+  margin-top: 13rpx;
+  margin-left: 47rpx;
+}
+.time{
+  font-size: 20rpx;
+}
+.name{
+  font-size: 32rpx;
+}
+.address{
+  width: 100%;
+  font-size: 24rpx;
+}
+.address image{
+  width: 19rpx;
+  height: 23rpx;
+  display: block;
+  float: left;
+  margin-top: 17rpx;
+  margin-right: 14rpx;
+}
+/* 添加按钮 */
+.addBtn{
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  bottom: 41rpx;
+  right: 325rpx;
+}
+.addBtn navigator{
+  width: 100rpx;
+  height: 100rpx;
+}

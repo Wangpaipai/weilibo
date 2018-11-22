@@ -1,0 +1,35 @@
+<!--pages/index/addFeast.wxml-->
+<view class="container">
+  <!-- 页面内容 -->
+  <view class="addFeastContent">
+    <view class="addFeastContentImg_top addFeastContentImg">
+      <image src='../../images/tjlb_biankuan.png'></image>
+      <image src='../../images/tjlb_biankuan2.png'></image>
+    </view>
+    <view class="addFeastContentDetils">
+        <view class='feastName'>
+          <label>名称：</label><input type='text'placeholder="输入礼簿名称" placeholder-class='feastInput_placeholder' class="feastInput" value='{{feastNameText}}' bindinput='getFeastName' disabled="{{disabled}}"/>
+        </view>
+        <view class="feastDays">
+          <label>日期：</label>
+          <picker mode="date"  start="{{date}}" bindchange="getFeastDays"  disabled="{{disabled}}">
+          <input type='text'placeholder="选择日期" placeholder-class='feastInput_placeholder' class="feastInput" value='{{feastDaysText}}'  disabled="true"/>
+          </picker>
+        </view>
+          <view class="feastBtn" wx:if="{{!modification}}" bindtap='saveBtn'style="{{btn_style}}"><text>保存</text></view>
+          <view class="feastBtn feastBtn_modi" wx:else bindtap='modificationBtn'style="{{btn_style}}"><text>修改</text></view>
+          <view class="feastBtn feastBtn_Del" wx:if="{{Delete}}" bindtap='deleteBtn' style="{{btn_style}}"><text>删除</text></view>
+    </view>
+    <view class="addFeastContentImg_bottom addFeastContentImg">
+      <image src='../../images/tjlb_biankuan3.png'></image>
+      <image src='../../images/tjlb_biankuan4.png'></image>
+    </view>
+  </view>
+</view>
+<!--弹出框-->
+<modal class="delFeast" bindcancel="cancel" bindconfirm="confirm" hidden="{{hidden}}" >
+  <view class="delFeastImg"><image src='../../images/xiangyun.png'></image></view>
+  <view class='delFeastText'>
+    <text>确定删除该礼簿，删除后不可恢复</text>
+  </view>
+</modal>

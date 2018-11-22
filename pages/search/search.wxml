@@ -1,0 +1,39 @@
+<!--pages/search/search.wxml-->
+<view class='container'>
+  <!-- 搜索 -->
+  <view class="search">
+    <image src='../../images/sousuo2.png'></image>
+    <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder'class="searchText"/>
+  </view>
+  <!-- 最近搜索 -->
+  <view class='zuijinSearch'>
+      <view class='zj_title'><text>最近搜索</text></view>
+      <view class='zuijin' style='{{style}}'>
+        <view class='zj_item' wx:for="{{lishi}}" wx:for-item="item" wx:for-index="index">
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+  </view>
+  <!-- 收礼 -->
+  <view class='shouliTitle'>
+    <view class='sl_title'><text>收礼</text></view>
+    <view class="shouli">
+        <view class='sl_img'><text>收</text></view>
+        <view class='sl_name'>{{userName}}</view>
+        <view class='sl_matter'>{{Matter}}</view>
+        <view class='sl_money'>￥<text>{{money}}</text></view>
+        <view class='sl_date'>{{date}}</view>
+    </view>
+  </view>
+  <!-- 送礼 -->
+  <view class='songliTitle'>
+    <view class='sl_title'><text>送礼</text></view>
+    <view class="songli">
+        <view class='sl_img song'><text>送</text></view>
+        <view class='sl_name'>{{userName}}</view>
+        <view class='sl_matter'>{{Matter}}</view>
+        <view class='sl_money'>￥<text>{{money}}</text></view>
+        <view class='sl_date'>{{date}}</view>
+    </view>
+  </view>
+</view>

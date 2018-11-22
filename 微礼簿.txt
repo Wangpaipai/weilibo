@@ -1,0 +1,9 @@
+    "pages/index/index",	Ê×Ò³
+    "pages/index/feast",	Àñ²¾ÏêÇé
+    "pages/index/addRemind",	Ìí¼ÓÌáĞÑ
+    "pages/search/search",	ËÑË÷
+    "pages/index/addPrensent",	Ìí¼ÓËÍÀñ
+    "pages/index/remind",	ÌáĞÑ
+    "pages/Gifts/Gifts",	ÊÕÀñ
+    "pages/index/addFeast",	Ìí¼ÓÀñ²¾
+    "pages/index/prensent"	ËÍÀñ

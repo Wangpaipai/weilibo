@@ -1,0 +1,82 @@
+<!--pages/index/remind.wxml-->
+<view class='container'>
+  <!-- 头部导航 -->
+  <view class='remindNav'>
+    <view class='remind_StandBy remind' bindtap='changeColor1'>
+      <text style='{{changeColor1}}'>待提醒</text>
+    </view>
+    <view class='remind_Expired remind'bindtap='changeColor2'>
+      <text style='{{changeColor2}}' >已过期</text>
+    </view>
+  </view>
+  <!-- 待提醒 -->
+  <view class='remindContentList_StandBy remindContentList' wx:if="{{standByshow}}">
+    <navigator class="remindContentItem" url="addRemind">
+        <view class="remindContentText">
+          <view class='time'><text>{{time}}</text></view>
+          <view class='name'>【<text>{{name}}</text>】</view>
+          <view class='address'><image src="../../images/dingwei.png"></image><text>{{address}}</text></view>
+        </view>
+        <view class='remindContentImage_StandBy'>
+          <view class="imageMatter_StandBy">
+            {{Matter}}
+          </view>
+        </view>
+    </navigator>
+    <navigator class="remindContentItem">
+        <view class="remindContentText">
+          <view class='time'><text>{{time}}</text></view>
+          <view class='name'>【<text>{{name}}</text>】</view>
+          <view class='address'><image src="../../images/dingwei.png"></image><text>{{address}}</text></view>
+        </view>
+        <view class='remindContentImage_StandBy'>
+          <view class="imageMatter_StandBy">
+            {{Matter}}
+          </view>
+        </view>
+    </navigator>
+    <navigator class="remindContentItem">
+        <view class="remindContentText">
+          <view class='time'><text>{{time}}</text></view>
+          <view class='name'>【<text>{{name}}</text>】</view>
+          <view class='address'><image src="../../images/dingwei.png"></image><text>{{address}}</text></view>
+        </view>
+        <view class='remindContentImage_StandBy'>
+          <view class="imageMatter_StandBy">
+            {{Matter}}
+          </view>
+        </view>
+    </navigator>
+  </view>
+  <!-- 已过期 -->
+  <view class='remindContentList_Expired remindContentList'wx:else>
+    <navigator class="remindContentItem">
+        <view class="remindContentText">
+          <view class='time'><text>{{time}}</text></view>
+          <view class='name'>【<text>{{name}}</text>】</view>
+          <view class='address'><image src="../../images/dingwei.png"></image><text>{{address}}</text></view>
+        </view>
+        <view class='remindContentImage_Expired'>
+          <view class="imageMatter_Expired">
+            {{Matter}}
+          </view>
+        </view>
+    </navigator>
+    <navigator class="remindContentItem">
+        <view class="remindContentText">
+          <view class='time'><text>{{time}}</text></view>
+          <view class='name'>【<text>{{name}}</text>】</view>
+          <view class='address'><image src="../../images/dingwei.png"></image><text>{{address}}</text></view>
+        </view>
+        <view class='remindContentImage_Expired'>
+          <view class="imageMatter_Expired">
+            {{Matter}}
+          </view>
+        </view>
+    </navigator>
+  </view>
+  <!-- 添加按钮 -->
+  <view class="addBtn">
+    <navigator url='addRemind'hover-class="none"><image src='../../images/shouye_tj.png'></image></navigator>
+  </view>
+</view>

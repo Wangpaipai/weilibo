@@ -1,0 +1,121 @@
+/* pages/index/addRemind.wxss */
+.addRemindDet{
+  width: 665rpx;
+  height: 1028rpx;
+  background:#fff;
+  box-shadow:0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius:10px;
+  margin: 0 auto;
+  margin-top: 20rpx;
+  padding-top: 59rpx;
+}
+.addRemind_text{
+  display: flex;
+  flex-direction: row;
+  width: 544rpx;
+  height: 60rpx;
+  border-bottom: 1px solid #f5f5f5;
+  margin: 0 auto;
+  margin-top: 60rpx;
+}
+.addRemind_text input{
+  color:#F53636;
+}
+.addRemindDet view label{
+  display: block;
+  flex: 3;
+  font-size: 36rpx;
+  line-height: 60rpx;
+}
+.RemindInput_placeholder{
+  color: #999;
+  font-size: 36rpx;
+}
+.Verify_btn_placeholder{
+  color: #fff;
+  font-size: 36rpx;
+}
+.RemindInput,picker{
+  flex: 7;
+  font-size: 36rpx;
+  height: 60rpx;
+}
+picker{
+  color: #F53636;
+  height: 100%;
+}
+.dateInput{
+  display: block;
+  height: 60rpx;
+}
+.addRemindVerify{
+  width: 544rpx;
+  height: 74rpx;
+  margin: 0 auto;
+  margin-top: 24rpx;
+  padding-bottom: 24rpx;
+  line-height: 70rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+.addRemindVerify .RemindInput{
+  width: 308rpx;
+  height: 70rpx;
+  border-right: 1px solid #f5f5f5;
+  float: left;
+} 
+.Verify_btn{
+  width: 190rpx;
+  height: 63rpx;
+  line-height: 63rpx;
+  background: #F53636;
+  border-radius: 10px;
+  font-size: 24rpx;
+  color: #fff;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 4rpx;
+}
+/* 创建，保存，删除按钮 */
+.btn{
+  width: 544rpx;
+  height: 88rpx;
+  margin: 0 auto;
+  margin-top:30rpx; 
+  text-align: center;
+  background: #F53636;
+  border-radius: 10px;
+  line-height: 88rpx;
+  color:#fff;
+}
+.create{
+  margin-top: 88rpx;
+}
+.save{
+  margin-top: 82rpx;
+}
+.Delete{
+  color: #999;
+  background: #e5e5e5;
+}
+/* 弹出框 */
+.delRemind{
+  position: relative;
+}
+.delRemindImg{
+  width: 195rpx;
+  height: 54rpx;
+  position: absolute;
+  top: 10rpx;
+  left: 2rpx;
+}
+.delRemindImg image{
+  width: 100%;
+  height: 100%;
+}
+.delRemindText{
+  width: 250rpx;
+  height: 82rpx;
+  margin: 82rpx auto;
+  font-size: 30rpx;
+  color: #333;
+}
