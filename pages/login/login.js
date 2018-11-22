@@ -4,23 +4,18 @@ function wxLogin(that){
       if (res.authSetting['scope.userInfo']){
         wx.getUserInfo({
           success: function (res) {
-            console.log(res);
-            //var userInfo = res.userInfo
-            //var nickName = userInfo.nickName
-            //var avatarUrl = userInfo.avatarUrl
-            //var gender = userInfo.gender //性别 0：未知、1：男、2：女
-            //var province = userInfo.province
-            //var city = userInfo.city
-            //var country = userInfo.country
+            return res;
           },
           fail: function (err) {
-            console.log(err);
-            openLogin(that);
+            return openLogin(that);
           }
         })
       }else{
 
       }
+    },
+    fail:function(err){
+      console.log(123);
     }
   })
 }
@@ -28,11 +23,11 @@ function wxLogin(that){
 function openLogin(that){
   wx.openSetting({
     success(res) {
-      console.log(res.authSetting)
-      // res.authSetting = {
-      //   "scope.userInfo": true,
-      //   "scope.userLocation": true
-      // }
+      if (res.authSetting['scope.userInfo']){
+        return wxLogin(that);
+      }else{
+        return openLogin(that);
+      }
     }
   })
 }
@@ -53,20 +48,30 @@ Page({
 
     wx.login({
       success(res) {
-        if (res.code) {
-          //发起网络请求
-          wx.request({
-            url: 'https://libo.mx5918.com/api/user/login',
-            data: {
-              code: res.code
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
+        var code = res.code;
+        var param = wxLogin(that);
+        //var rawData = param.rawData;
+        //var signature = param.signature;
+        //var encryptedData = param.encryptedData;
+        //var iv = param.iv;
+        //if (code) {
+        //  //发起网络请求
+        //  wx.request({
+        //    url: 'https://libo.mx5918.com/api/user/login',
+        //    data: {
+        //      code: code,
+        //      rawData: rawData,
+        //      signature: signature,
+        //      iv: iv,
+        //      encryptedData: encryptedData
+        //    }
+        //  })
+        //} else {
+        //  console.log('登录失败！' + res.errMsg)
+        //}
       },
-      fail: function () {
-        wxLogin(that);
+      fail: function (err) {
+        console.log(err);
       }
     })
   },
