@@ -63,9 +63,10 @@ Page({
    */
   navigator:function(event){
     //获取参数
-    var id = event.currentTarget.dataset['id'];
+    var content = event.currentTarget.dataset['content'];
+    var data = JSON.stringify(content);
     wx.navigateTo({
-      url: 'feast?id=' + id
+      url: 'feast?content=' + data
     })
   }
 })

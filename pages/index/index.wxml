@@ -49,7 +49,7 @@
   <!-- 内容不为空 -->
   <view class="indexContent" wx:else>
       <view class="contentList">
-          <view class='contentItem' wx:for="{{ritualthin}}"  bindtap='navigator' data-id="{{item.id}}">
+          <view class='contentItem' wx:for="{{ritualthin}}"  bindtap='navigator' data-content="{{item}}">
             <view class="contentItemImage">
             {{item.index}}
             </view>

@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    rt_id:'',
     feastNameText:"",
     feastDaysText:"",
     hidden: true,          //判断是否显示弹框       
@@ -12,9 +13,20 @@ Page({
     Delete: false,          //判断删除按钮是否显示
     btn_style:"",
     date: '',
-    disabled:false,
-    user:{}
+    disabled:false
   },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    var myDate = new Date().toLocaleDateString();
+    console.log(myDate);
+    this.setData({
+      date: myDate
+    })
+  },
+
   // 点击取消的回调函数
   cancel: function () {   
     this.setData({
@@ -37,47 +49,31 @@ Page({
     },1000)
   },
   //点击保存
-  saveBtn: function () {
-    var that = this;
-    if (that.data.feastDaysText != "" && that.data.feastNameText != "") {
-      wx.request({
-        url: 'https://libo.mx5918.com/api/ritualthin/rtInsert',
-        data: {
-          uid: that.data.user.uid,
-          name: that.data.feastNameText,
-          start_time: that.data.feastDaysText
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success(data) {
-          var result = data.data;
-          console.log(result);
-          if (result.status) {
-            wx.setNavigationBarTitle({
-              title: '添加礼簿'
-            })
-            wx.showToast({
-              title: '保存成功',
-              icon: "success"
-            })
-            setTimeout(function () {
-              wx.redirectTo({
-                url: 'feast?id=' + result.data
-              })
-            }, 1000)
-          } else {
-            wx.showToast({
-              title: result.msg,
-              image: '../../images/error.png'
-            })
-          }
-        }
+  saveBtn:function(){
+    if(this.data.feastDaysText!=""&&this.data.feastNameText!=""){
+      this.setData({
+        modification: true,
+        Delete: true,
+        feastNameText: this.data.feastNameText,
+        feastDaysText: this.data.feastDaysText,
+        disabled: true
       })
-    } else {
+      wx.setNavigationBarTitle({
+        title: '添加礼簿'
+      })
+      wx.showToast({
+        title: '保存成功',
+        icon: "success"
+      })
+      setTimeout(function(){
+        wx.redirectTo({
+          url: 'feast'
+        })
+      },1000)
+    }else{
       wx.showToast({
         title: '内容不能为空',
-        image: '../../images/error.png'
+        image:'../../images/error.png'
       })
     }
   },
@@ -95,26 +91,9 @@ Page({
     })
   },
   //点击删除
-    deleteBtn:function(){
+  deleteBtn:function(){
     this.setData({
       hidden:false
-    })
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var that = this;
-    var myDate = new Date().toLocaleDateString();
-
-    wx.getStorage({
-      key: 'user',
-      success(res) {
-        that.setData({
-          date: myDate,
-          user:res.data
-        });
-      }
     })
   },
 
@@ -135,7 +114,7 @@ Page({
   },
 
   getFeastName:function(e){
-    let val = e.detail.value
+    let val=e.detail.value
     this.setData({
       feastNameText:val
     })

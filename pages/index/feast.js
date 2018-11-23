@@ -113,12 +113,16 @@ Page({
     })
   },
   onLoad: function (event) {
-    console.log(this.data.userInfo.index)
+    var rt = JSON.parse(event.content);
+    rt.start_time = rt.start_time.replace(/\./g, '-');
     let this_data = this.data.userInfo[0].data;
-    console.log(this.data.userInfo)
     var that = this;
     this.setData({
-      this_data: this_data
+      this_data: this_data,
+      Toptitle:rt.name,
+      time: rt.start_time,
+      moneyCountNum:rt.money,
+      peopleCountNum:rt.count
     })
     wx.getSystemInfo({
       success: function (res) {
