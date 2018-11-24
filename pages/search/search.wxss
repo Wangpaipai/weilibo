@@ -95,7 +95,7 @@
   width: 91rpx;
   background-repeat: no-repeat;
   background-size: 91rpx 91rpx;
-  background-image: url(https://libo.mx5918.com/weilibu/images/ss_sl.png)
+  background-image: url(https://libo.mx5918.com/images/ss_sl.png)
 }
 .sl_img text{
   display: block;
@@ -124,5 +124,5 @@
   opacity: 0.9;
 }
 .song{
-  background-image: url(https://libo.mx5918.com/weilibu/images/ss_songli.png)
+  background-image: url(https://libo.mx5918.com/images/ss_songli.png)
 }

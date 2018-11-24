@@ -1,5 +1,45 @@
 // pages/index/addPrensent.js
-var name,days,relation,matter,money;
+var name, days, matter, relation, money;
+function checkData(that){
+  name = that.data.name.length;
+  matter = that.data.matter.length;
+  days = that.data.days.length;
+  relation = that.data.relation.length;
+  money = that.data.money.length;
+  if (name != 0 && relation != 0 && matter != 0 && relation != 0 && days != 0) {
+    let thismoney = /^[0-9]*$/;
+    let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
+    let Name = that.data.name;
+    let Money = that.data.money;
+    if (!thismoney.test(Money)) {
+      wx.showToast({
+        title: '金额只能是数字',
+        image: '../../images/error.png'
+      })
+      return false;
+    } else if (name < 2) {
+      wx.showToast({
+        title: '姓名至少两位',
+        image: '../../images/error.png'
+      })
+      return false;
+    } else if (!userName.test(Name)) {
+      wx.showToast({
+        title: '姓名格式有误',
+        image: '../../images/error.png'
+      })
+      return false;
+    }  else {
+      return true;
+    }
+  } else {
+    wx.showToast({
+      title: '内容不能为空',
+      image: '../../images/error.png'
+    })
+  }
+}
+
 Page({
 
   /**
@@ -17,7 +57,8 @@ Page({
     modification: false,     //判断修改按钮是否显示
     Delete: false,          //判断删除按钮是否显示
     disabled: false,
-    status: 0
+    status: '',
+    give_id:''
   },
   prensentChange:function(e){
     let index=e.currentTarget.dataset.index;
@@ -36,7 +77,6 @@ Page({
   },
   // 获取姓名
   getName: function (e) {
-    console.log(e.detail.value)
     let val = e.detail.value;
     this.setData({
       name: val
@@ -51,10 +91,15 @@ Page({
   },
   //获取关系
   getRelation: function (e) {
-    console.log(e.detail.value)
     let val = e.detail.value;
     this.setData({
       relation: val
+    })
+  },
+  getMatter: function (e) {
+    let val = e.detail.value;
+    this.setData({
+      matter: val
     })
   },
   relationClick: function (e) {
@@ -65,7 +110,31 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this;
+    if(options.give){
+      var give = JSON.parse(options.give);
+      give.give_time = give.give_time.replace(/\./g, "-");
+      var index = '';
+      for (var i = 0; i < that.data.changeArr.length; i++) {
+        if (give.relation == that.data.changeArr[i]) {
+          index = i;
+        }
+      }
+      this.setData({
+        status: index,
+        name: give.name,
+        money: give.money,
+        days: give.give_time,
+        relation: give.relation,
+        matter: give.matter, 
+        modification: true,
+        Delete: true, 
+        give_id:give.id
+      })
+      wx.setNavigationBarTitle({
+        title: '修改送礼'
+      })
+    }
   },
 
   /**
@@ -82,86 +151,148 @@ Page({
   },
   // 点击确认的回调函数
   confirm: function () {
-    this.setData({
-      hidden: true
-    });
-    wx.showToast({
-      title: '删除成功',
-      icon: "success"
+    var that = this;
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/giftgive/giftGiveRemove',
+          data: {
+            uid: res.data.uid,
+            id: that.data.give_id
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            that.setData({
+              hidden: true
+            });
+            var result = data.data;
+            if (result.status) {
+              wx.showToast({
+                title: '删除成功',
+                icon: "success"
+              })
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1000)
+            } else {
+              wx.showToast({
+                title: '删除失败',
+                image: '../../images/error.png'
+              })
+            }
+          }
+        })
+      }
     })
-    setTimeout(function () {
-      wx.switchTab({
-        url: '../index/index'
-      })
-    }, 1000)
   },
   //点击保存
   formSubmit: function (e) {
-    console.log(e.detail.value)
-    name = e.detail.value["name"].length;
-    matter = e.detail.value["matter"].length;
-    days = e.detail.value["days"].length;
-    relation = e.detail.value["relation"].length;
-    money = e.detail.value["money"].length;
-    wx.setNavigationBarTitle({
-      title: '添加送礼'
-    })
-    if (name != 0 && relation !=0 &&matter != 0 && relation != 0 && days!=0) {
-      let thismoney = /^[0-9]*$/;
-      let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
-      let Name=e.detail.value["name"];
-      let Money=e.detail.value["money"];
-      if (!thismoney.test(Money)) {
-        wx.showToast({
-          title: '金额只能是数字',
-          image: '../../images/error.png'
-        })
-      } else if (userName.test(Name)){
-        wx.showToast({
-          title: '姓名格式有误',
-          image: '../../images/error.png'
-        })
-      } else if (name < 2){
-        console.log(name)
-        wx.showToast({
-          title: '姓名至少两位',
-          image: '../../images/error.png'
-        })
-      }else{
-        this.setData({
-          modification: !this.data.modification,
-          Delete: false,
-          disabled: true
-        })
-        wx.showToast({
-          title: '保存成功',
-          icon: "success"
-        })
-        setTimeout(function(){
-          wx.switchTab({
-            url: 'prensent',
+  },
+  //新增送礼
+  createGive:function(e){
+    var that = this;
+    if (checkData(that)) {
+      that.setData({
+        disabled: true
+      })
+      wx.getStorage({
+        key: 'user',
+        success(res) {
+          wx.request({
+            url: 'https://libo.mx5918.com/api/giftgive/giftGiveCreate',
+            data: {
+              uid: res.data.uid,
+              name: that.data.name,
+              money: that.data.money,
+              relation: that.data.relation,
+              matter: that.data.matter,
+              give_time: that.data.days
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success(data) {
+              var result = data.data;
+              if (result.status) {
+                wx.showToast({
+                  title: '新增成功',
+                  icon: "success"
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 1000)
+              } else {
+                that.setData({
+                  disabled: false
+                })
+                wx.showToast({
+                  title: '新增失败',
+                  image: '../../images/error.png'
+                })
+              }
+            }
           })
-        },1000)
-       }
-    }else {
-      wx.showToast({
-        title: '内容不能为空',
-        image: '../../images/error.png'
+        }
       })
     }
   },
   //点击修改
   modificationBtn: function () {
-    wx.setNavigationBarTitle({
-      title: '送礼详情'
-    })
-    this.setData({
-      feastBtnShow: !this.data.feastBtnShow,
-      modification: false,
-      Delete: true,
-      btn_style: "margin-top:30rpx",
-      disabled: false
-    })
+    var that = this;
+    if(checkData(that)){
+      that.setData({
+        disabled: true
+      })
+      wx.getStorage({
+        key: 'user',
+        success(res) {
+          wx.request({
+            url: 'https://libo.mx5918.com/api/giftgive/giftGiveUpdate',
+            data: {
+              uid: res.data.uid,
+              id: that.data.give_id,
+              name: that.data.name,
+              money: that.data.money,
+              relation: that.data.relation,
+              matter: that.data.matter,
+              give_time: that.data.days
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success(data) {
+              var result = data.data;
+              if (result.status) {
+                wx.showToast({
+                  title: '修改成功',
+                  icon: "success"
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 1000)
+              } else {
+                that.setData({
+                  disabled: false
+                })
+                wx.showToast({
+                  title: '修改失败',
+                  image: '../../images/error.png'
+                })
+              }
+            }
+          })
+        }
+      })
+    }
   },
   //点击删除
   deleteBtn: function () {

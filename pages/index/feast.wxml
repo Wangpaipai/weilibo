@@ -4,7 +4,7 @@
   <view class="search">
     <navigator class='nav_btn' hover-class="none" url='../search/search'>
       <image src='../../images/sousuo2.png'></image>
-      <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder'class="searchText" disabled='true'/>
+      <input type='text' placeholder='请输入姓名快速查找' placeholder-class='searchText_placeholder' class="searchText" value='{{name}}' disabled='true'/>
     </navigator>
   </view>
   <!-- 统计 -->
@@ -33,14 +33,14 @@
 <!-- +++++++++++++++++++++ -->
 <scroll-view scroll-y="true" style="height:{{windowHeight}}rpx;"  scroll-into-view="{{toView}}" scroll-top="0">
   <view wx:for="{{userInfo}}" wx:for-item="item"> 
-    <view class="search-english" id="a">
+    <view class="search-english" id="{{item.ENG}}" style="display:{{ item.data.length > 0 ? 'block' :'none' }}">
       {{item.ENG}}
     </view >
-    <view class="search-car" wx:for="{{item.data}}" wx:for-item="this" wx:for-index="{{userInfo.index}}" bindtap="showRequire" >
-      <view class="search_name">{{this.name}}</view>
-      <view class='search_money'>￥{{this.money}}</view>
-      <view class='search_matter'>{{this.matter}}</view>
-      <view class='search_date'>{{this.date}}</view>
+    <view class="search-car" wx:for="{{item.data}}" wx:for-item="receive" wx:for-index="{{userInfo.index}}" bindtap="showRequire" data-ctn="{{receive}}" >
+      <view class="search_name">{{receive.name}}</view>
+      <view class='search_money'>￥{{receive.money}}</view>
+      <view class='search_matter'>{{receive.relation}}</view>
+      <view class='search_date'>{{receive.give_time}}</view>
    </view>
     </view>
 </scroll-view>
@@ -51,7 +51,7 @@
   <!-- ===================== -->
   <!-- 添加按钮 -->
   <view class="addBtn">
-    <navigator url='../Gifts/Gifts' hover-class="none"><image src='../../images/shouye_tj.png'></image></navigator>
+    <navigator url='../Gifts/Gifts?rt_id={{rt_id}}' hover-class="none"><image src='../../images/shouye_tj.png'></image></navigator>
   </view>
 </view>
 

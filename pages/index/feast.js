@@ -1,6 +1,6 @@
 // pages/index/feast.js
   //定义索引字母数组
-  var indexArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  var indexArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","#"];
   var y = 0;
   //获取touchstart字母数组角标
   function getArrIndex(english) {
@@ -25,79 +25,39 @@ function getArrEnglish(num, index) {
  */
 Page({
   data: {
-    Toptitle: "结婚宴", //宴席名称
-    time: "2018-01-01",
-    moneyCountNum: "1552421",
-    peopleCountNum: "25",
+    Toptitle: "", //宴席名称
+    time: "",
+    moneyCountNum: "",
+    peopleCountNum: "",
     rightShow: false,
     dropShow: false,
     indexShow: false,
-    toView: "e",
+    user:{},//用户信息
+    rt_id:'',//礼薄id
+    rt:{},//礼薄信息
+    toView: "Z",
     scrollTop: 1000,
     indexId: "",
     indexy: "",
     indexEnglish: "",
     arrId: indexArr,
-    userInfo: [
-      {
-        englis_id: 0,
-        ENG: "A",
-        data: [
-          {
-            user_id: 0,
-            name: "阿丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          },
-          {
-            user_id: 1,
-            name: "阿丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          }
-        ]
-      },
-      {
-        englis_id: 1,
-        ENG: "B",
-        data: [
-          {
-            user_id: 0,
-            name: "巴丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          },
-          {
-            user_id: 1,
-            name: "巴丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          }
-        ]
-      }
-    ],
-    this_data: []
+    userInfo: []
   },
   touchstart: function (e) {
     this.setData({
       indexId: e.target.id,
-      toView: e.target.id.toLowerCase(),
+      toView: e.target.id,
       indexy: e.touches[0].pageY,
       indexShow: true,
       indexEnglish: e.target.id
     })
   },
   touchmove: function (e) {
-    console.log(e)
     y = getArrIndex(e.target.id);
     var indexY = e.touches[0].pageY;
     if (getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y)) {
       this.setData({
-        toView: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y).toLowerCase(),
+        toView: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y),
         indexEnglish: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y)
       })
     }
@@ -108,22 +68,19 @@ Page({
     })
   },
   showRequire(e) {
+    var that = this;
+    var receive = JSON.stringify(e.currentTarget.dataset.ctn);
     wx.navigateTo({
-      url: 'addPrensent',
+      url: '../Gifts/Gifts?rt_id=' + that.data.rt_id + '&receive=' + receive,
     })
   },
   onLoad: function (event) {
-    var rt = JSON.parse(event.content);
-    rt.start_time = rt.start_time.replace(/\./g, '-');
-    let this_data = this.data.userInfo[0].data;
+    var rt_id = event.id;
     var that = this;
-    this.setData({
-      this_data: this_data,
-      Toptitle:rt.name,
-      time: rt.start_time,
-      moneyCountNum:rt.money,
-      peopleCountNum:rt.count
+    that.setData({
+      rt_id: rt_id
     })
+    
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -134,15 +91,52 @@ Page({
     })
   },
   tj_feast: function () {
+    var rt = JSON.stringify(this.data.rt);
     wx.navigateTo({
-      url: 'addFeast',
+      url: 'addFeast?rt=' + rt,
     })
   },
   onReady: function () {
     // 页面渲染完成
   },
   onShow: function () {
-    // 页面显示
+    var that = this;
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/ritualthin/getGiftReceiveDetail',
+          data: {
+            uid: res.data.uid,
+            rt_id: that.data.rt_id
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            var result = data.data;
+            if(result.status){
+              that.setData({
+                moneyCountNum: result.data.money,
+                peopleCountNum: result.data.count,
+                userInfo: result.data.receive,
+                Toptitle: result.data.rt.name,
+                time: result.data.rt.start_time,
+                rt: result.data.rt
+              })
+              wx.setNavigationBarTitle({
+                title: result.data.rt.name
+              })
+            } else {
+              wx.showToast({
+                title: '加载失败',
+                icon: "none"
+              })
+            }
+          }
+        })
+      }
+    })
   },
   onHide: function () {
     // 页面隐藏

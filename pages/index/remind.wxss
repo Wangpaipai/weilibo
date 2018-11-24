@@ -41,10 +41,10 @@
   color:#fff;
 }
 .remindContentImage_StandBy{
-  background-image: url("https://libo.mx5918.com/weilibu/images/zhuangshi.png");
+  background-image: url("https://libo.mx5918.com/images/zhuangshi.png");
 }
 .remindContentImage_Expired{
-  background-image: url("https://libo.mx5918.com/weilibu/images/zhuangshi2.png");
+  background-image: url("https://libo.mx5918.com/images/zhuangshi2.png");
 }
 .remindContentImage_StandBy,.remindContentImage_Expired{
   float: left;

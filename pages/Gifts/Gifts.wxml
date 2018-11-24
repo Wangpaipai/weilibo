@@ -15,13 +15,13 @@
     </view>
      <!-- 选择关系 -->
         <view class='addGiftsChangeBtn'>
-            <view class='{{status== index ? "changeStyle" : "unChange"}} changeBtn' wx:for="{{changeArr}}" wx:for-index="index" wx:for-item="item" data-index="{{index}}" bindtap='relationChange'><text>{{item}}</text>
+            <view class='{{status === index ? "changeStyle" : "unChange"}} changeBtn' wx:for="{{changeArr}}" wx:for-index="index" wx:for-item="item" data-index="{{index}}" bindtap='relationChange'><text>{{item}}</text>
             </view>
         </view>
         <!-- 保存，修改，删除按钮 -->
-        <view class="GiftsBtn" wx:if="{{!modification}}" bindtap='saveBtn'style="{{btn_style}}"><text>保存</text></view>
-        <view class="GiftsBtn GiftsBtn_modi" wx:else bindtap='modificationBtn'><text>修改</text></view>
-        <view class="GiftsBtn GiftsBtn_Del" wx:if="{{Delete}}" bindtap='deleteBtn' style="{{btn_style}}"><text>删除</text></view>
+        <button disabled='{{disabled}}' class="GiftsBtn" wx:if="{{!modification}}" bindtap='saveBtn' style="{{btn_style}}"><text>保存</text></button>
+        <button disabled='{{disabled}}' class="GiftsBtn GiftsBtn_modi" wx:else bindtap='modificationBtn'><text>修改</text></button>
+        <button disabled='{{disabled}}' class="GiftsBtn GiftsBtn_Del" wx:if="{{Delete}}" bindtap='deleteBtn' style="{{btn_style}}"><text>删除</text></button>
   </view>
 </view>
 <!--弹出框-->

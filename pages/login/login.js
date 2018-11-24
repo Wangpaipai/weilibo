@@ -36,13 +36,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: true
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var isShow = wx.canIUse('button.open-type.getUserInfo');
     var that =this;
+    that.setData({
+      canIUse: isShow
+    })
     wx.login({
       success(res) {
         var code = res.code;

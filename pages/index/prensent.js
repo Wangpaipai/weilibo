@@ -1,6 +1,6 @@
 // pages/index/prensent.js
 //定义索引字母数组
-var indexArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var indexArr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","#"];
 var y = 0;
 //获取touchstart字母数组角标
 function getArrIndex(english) {
@@ -31,54 +31,15 @@ Page({
     indexy: "",
     indexEnglish: "",
     arrId: indexArr,
-    userInfo: [
-      {
-        englis_id:0,
-        ENG:"A",
-        data:[
-          {
-            user_id:0,
-            name: "阿丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          },
-          {
-            user_id: 1,
-            name: "阿丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          }
-        ]
-      },
-      {
-        englis_id: 1,
-        ENG: "B",
-        data: [
-          {
-            user_id: 0,
-            name: "巴丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          },
-          {
-            user_id: 1,
-            name: "巴丹",
-            money: 600,
-            matter: "结婚",
-            date: "2018.10.12"
-          }
-        ]
-      }
-    ],
+    money:0,//送礼统计
+    count:0,//送礼个数
+    userInfo: [],
     this_data:[]
   },
   touchstart: function (e) {
     this.setData({
       indexId: e.target.id,
-      toView: e.target.id.toLowerCase(),
+      toView: e.target.id,
       indexy: e.touches[0].pageY,
       indexShow: true,
       indexEnglish: e.target.id
@@ -90,7 +51,7 @@ Page({
     var indexY = e.touches[0].pageY;
     if (getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y)) {
       this.setData({
-        toView: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y).toLowerCase(),
+        toView: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y),
         indexEnglish: getArrEnglish(Math.round((indexY - this.data.indexy) / 15), y)
       })
     }
@@ -101,18 +62,13 @@ Page({
     })
   },
   showRequire(e){
+    var give = JSON.stringify(e.currentTarget.dataset.ctn);
     wx.navigateTo({
-      url: 'addPrensent',
+      url: 'addPrensent?give=' + give,
     })
   },
   onLoad: function (event) {
-    console.log(this.data.userInfo.index)
-    let this_data = this.data.userInfo[0].data;
-    console.log(this.data.userInfo)
     var that = this;
-    this.setData({
-      this_data: this_data
-    })
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -126,7 +82,36 @@ Page({
     // 页面渲染完成
   },
   onShow: function () {
-    // 页面显示
+    var that = this;
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/giftgive/giftGiveList',
+          data: {
+            uid: res.data.uid
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            var result = data.data;
+            if (result.status) {
+              that.setData({
+                money:result.data.money,
+                count:result.data.count,
+                userInfo: result.data.gift_give
+              })
+            } else {
+              wx.showToast({
+                title: '加载失败',
+                icon: "none"
+              })
+            }
+          }
+        })
+      }
+    })
   },
   onHide: function () {
     // 页面隐藏

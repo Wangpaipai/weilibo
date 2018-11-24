@@ -2,10 +2,10 @@
 Page({
   data: {
     contentHide:true,
-    imageText:"婚",
-    name: "李萌",
-    matter: "结婚",
-    timer:"2018-10-01 11: 58",
+    imageText:"",
+    name: "",
+    matter: "",
+    timer:"",
     txHidden:true,
     remind:{},
     banner:[],
@@ -19,26 +19,30 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
+
+  onShow:function(){
     var that = this;
     wx.getStorage({
       key: 'user',
       success(res) {
         wx.request({
-          url: 'https://libo.mx5918.com/api/ritualthin/index', 
+          url: 'https://libo.mx5918.com/api/ritualthin/index',
           data: {
             uid: res.data.uid
           },
           header: {
-            'content-type': 'application/json' 
+            'content-type': 'application/json'
           },
           success(data) {
             var result = data.data;
-            for (var i = 0; i < result.data.ritualthin.length;i++){
+            for (var i = 0; i < result.data.ritualthin.length; i++) {
               var str = result.data.ritualthin[i]['name'];
               result.data.ritualthin[i].index = str.charAt(str.length - 1)
             }
             that.setData({
-              user:res.data,
+              user: res.data,
               banner: result['data']['banner'],
               gift_give_total: result['data']['gift_give_total'],
               gift_receive_total: result['data']['gift_receive_total'],
@@ -50,7 +54,6 @@ Page({
       }
     });
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -63,10 +66,9 @@ Page({
    */
   navigator:function(event){
     //获取参数
-    var content = event.currentTarget.dataset['content'];
-    var data = JSON.stringify(content);
+    var data = event.currentTarget.dataset['id'];
     wx.navigateTo({
-      url: 'feast?content=' + data
+      url: 'feast?id=' + data
     })
   }
 })

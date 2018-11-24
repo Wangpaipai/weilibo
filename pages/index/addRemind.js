@@ -2,8 +2,57 @@
 var dateTimePicker = require('../../utils/dateTimePicker.js');
 var nowDate=require("../../utils/util.js");
 var TIME = nowDate.formatTime(new Date());
-console.log(TIME);
 var name, days, matter, site, phone, time;
+
+function checkData(that){
+
+  var userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
+  var thisName = that.data.name;
+  var phoneNumber = /^1[3|4|5|7|8|9]{1}[0-9]{1}\d{8}$/;
+  var thisPhone = that.data.phone;
+  name = that.data.name.length;
+  matter = that.data.matter.length;
+  days = that.data.days.length;
+  if (days == 0 || matter == 0 || name == 0) {
+    wx.showToast({
+      title: '内容不能为空',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else if (!phoneNumber.test(thisPhone)) {
+    wx.showToast({
+      title: '手机格式不正确',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else if (!userName.test(thisName)) {
+    wx.showToast({
+      title: '姓名格式有误',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else if (name < 2) {
+    wx.showToast({
+      title: '姓名格式不正确',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else if (site == 0) {
+    wx.showToast({
+      title: '地址格式不正确',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else if (phone == 0) {
+    wx.showToast({
+      title: '手机格式不正确',
+      image: '../../images/error.png'
+    })
+    return false;
+  } else {
+    return true;
+  }
+}
 Page({
   /**
    * 页面的初始数据
@@ -19,7 +68,7 @@ Page({
     // 
     siteShow:true,
     phoneShow:true,
-    show:true,
+    show:false, //是否显示验证码输入框
     createShow:true,
     modificationShow:false,
     DeleteShow:false,
@@ -31,6 +80,8 @@ Page({
     matter:"",  //事项
     site:"",    //地址
     phone:"",    //电话
+    code:"", //验证码
+    remind_id:'',
     btn_value:'获取验证码',
     // 日期时间组件
     dateTimeArray: null,
@@ -38,86 +89,145 @@ Page({
     dateTimeArray1: null,
     dateTime1: null,
     startYear: 2000,
-    endYear: 2050
+    endYear: 2050,
+    mobile:'', //默认电话  判断是否和输入一致，不一致需要验证码
+    editMobile:'',//修改接收到的的手机号码
   },
   // 创建
   formSubmit:function(e){
-    let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
-    let thisName = e.detail.value["name"];
-    let phoneNumber = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    let thisPhone = e.detail.value.phoneNumber;
-    name = e.detail.value["name"].length;
-    matter = e.detail.value["matter"].length;
-    days = e.detail.value["days"].length;
-    phone = e.detail.value["phoneNumber"].length;
-    if (days  == 0 || matter == 0  || name == 0 ){
-      wx.showToast({
-        title: '内容不能为空',
-        image: '../../images/error.png'
-      })
-      return;
-    }else if (phone != 11) {
-        wx.showToast({
-          title: '手机格式不正确',
-          image: '../../images/error.png'
-        })
-        return;
-      } else if (!phoneNumber.test(thisPhone)) {
-        wx.showToast({
-          title: '手机格式不正确',
-          image: '../../images/error.png'
-        })
-        return;
-    }else if (!userName.test(thisName)){
-      wx.showToast({
-        title: '姓名格式有误',
-        image: '../../images/error.png'
-       })
-       return;
-    }else if(name<2){
-      wx.showToast({
-        title: '姓名格式不正确',
-        image: '../../images/error.png'
-      })
-      return;
-    } else if (site == 0) {
-      this.setData({
-        siteShow: false
-      })
-    } else if (phone == 0) {
-      this.setData({
-        phoneShow: false,
-        show: false
-      })
-    }else {
-      this.setData({
-        createShow: false,
-        DeleteShow: true,
-        disabled: true,
-        modificationShow:true
-      })
-      wx.showToast({
-        title: '创建成功',
-        icon: "success"
-      })
-      wx.setNavigationBarTitle({
-        title: '提醒详情'
-      })
-      wx.redirectTo({
-        url: 'remind'
+  },
+  //创建
+  createRemind:function(e){
+    var that = this;
+    that.setData({
+      disabled: true
+    })
+    if (checkData(that)) {
+      //根据情况生成请求参数
+      var param = {
+        name: that.data.name,
+        start_time: that.data.days,
+        event: that.data.matter,
+        address: that.data.site,
+        phone: that.data.phone
+      };
+      if (that.data.show) {
+        if (that.data.code.length != 6) {
+          wx.showToast({
+            title: '验证码错误',
+            image: '../../images/error.png'
+          })
+          return;
+        } else {
+          param.code = that.data.code;
+        }
+        param.is_check = 1;
+      } else {
+        param.is_check = 0;
+      }
+      wx.getStorage({
+        key: 'user',
+        success(res) {
+          param.uid = res.data.uid;
+          wx.request({
+            url: 'https://libo.mx5918.com/api/remind/remindCreate',
+            data: param,
+            header: {
+              'content-type': 'application/json'
+            },
+            success(data) {
+              var result = data.data;
+              if (result.status) {
+                wx.showToast({
+                  title: '创建成功',
+                  icon: "success"
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 1000)
+              } else {
+                that.setData({
+                  disabled: false
+                })
+                wx.showToast({
+                  title: '创建失败',
+                  image: '../../images/error.png'
+                })
+              }
+            }
+          })
+        }
       })
     }
   },
   //修改
   modification:function(){
-    this.setData({
-      disabled:false,
-      modificationShow:false,
-      saveShow:true,
-      siteShow: true,
-      phoneShow: true,
-      show:true
+    var that = this;
+    that.setData({
+      disabled:true
     })
+    if(checkData(that)){
+      //根据情况生成请求参数
+      var param = {
+        id:that.data.remind_id,
+        name:that.data.name,
+        start_time:that.data.days,
+        event:that.data.matter,
+        address:that.data.site,
+        phone:that.data.phone
+      };
+      if(that.data.show){
+        if(that.data.code.length != 6){
+          wx.showToast({
+            title: '验证码错误',
+            image: '../../images/error.png'
+          })
+          return;
+        }else{
+          param.code = that.data.code;
+        }
+        param.is_check = 1;
+      }else{
+        param.is_check = 0;
+      }
+      wx.getStorage({
+        key: 'user',
+        success(res) {
+          param.uid = res.data.uid;
+          wx.request({
+            url: 'https://libo.mx5918.com/api/remind/remindUpdate',
+            data: param,
+            header: {
+              'content-type': 'application/json'
+            },
+            success(data) {
+              var result = data.data;
+              if (result.status) {
+                wx.showToast({
+                  title: '修改成功',
+                  icon: "success"
+                })
+                setTimeout(function(){
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                },1000)
+              } else {
+                that.setData({
+                  disabled: true
+                })
+                wx.showToast({
+                  title: '修改失败',
+                  image: '../../images/error.png'
+                })
+              }
+            }
+          })
+        }
+      })
+    }
   },
   //保存
   save:function(){
@@ -145,23 +255,99 @@ Page({
   },
   // 点击确认的回调函数
   confirm: function () {
-    this.setData({
-      hidden: false
-    });
-    wx.showToast({
-      title: '删除成功',
-      icon: "success"
+    var that = this;
+    wx.getStorage({
+      key: 'user',
+      success: function(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/remind/remindRemove',
+          data: {
+            uid: res.data.uid,
+            id: that.data.remind_id
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            var result = data.data;
+            that.setData({
+              hidden: false
+            });
+            if (result.status) {
+              wx.showToast({
+                title: '删除成功',
+                icon: "success"
+              })
+              setTimeout(function () {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }, 1000)
+            } else {
+              wx.showToast({
+                title: '删除失败',
+                image: '../../images/error.png'
+              })
+            }
+          }
+        })
+      },
     })
-    setTimeout(function () {
-      wx.switchTab({
-        url: 'index'
-      })
-    }, 1000)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this;
+    var phone = '';
+    //获取参数并设置参数
+    if(options.remind){
+      var remind = JSON.parse(options.remind);
+      remind.start_time = remind.start_time.replace(/\./g,"-");
+      phone = remind.phone;
+      that.setData({
+        name: remind.name,
+        days: remind.start_time,
+        matter: remind.event, 
+        site: remind.address,
+        phone: remind.phone,
+        editMobile: remind.phone,
+        remind_id: remind.id,
+        createShow: false,
+        modificationShow: true,
+        DeleteShow: true,
+        show:false
+      })
+      wx.setNavigationBarTitle({
+        title: '修改提醒'
+      })
+    }
+    //获取默认手机号码
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/site/getDefaultPhone',
+          data: {
+            uid: res.data.uid,
+            rt_id: that.data.rt_id
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            var result = data.data;
+            if (result.status) {
+              //设置默认手机号码
+              that.setData({
+                mobile:result.data.phone
+              })
+            }
+          }
+        })
+      }
+    })
+
     this.setData({
       TIME: TIME
     })
@@ -177,7 +363,7 @@ Page({
       dateTimeArray: obj.dateTimeArray,
       dateTimeArray1: obj1.dateTimeArray,
       dateTime1: obj1.dateTime
-      })
+    })
   },
   // 日期时间判断=====================================
   changeDateTime1(e) {
@@ -216,10 +402,52 @@ Page({
       })
     }
   },
-  thisPhone:function(e){
+  //一下edit事件为input值改变时设置data
+  codeEdit: function (e) {
+    var code = e.detail.value;
     this.setData({
-      show:true
+      code: code
     })
+  },
+  nameEdit: function (e) {
+    var name = e.detail.value;
+    this.setData({
+      name: name
+    })
+  },
+  eventEdit: function (e) {
+    var event = e.detail.value;
+    this.setData({
+      matter: event
+    })
+  },
+  eventEdit: function (e) {
+    var event = e.detail.value;
+    this.setData({
+      matter: event
+    })
+  },
+  addressEdit:function(e){
+    var site = e.detail.value;
+    this.setData({
+      site: site
+    })
+  },
+  thisPhone:function(e){
+    var phone = e.detail.value;
+    this.setData({
+      phone: phone
+    })
+    //如果手机号和默认手机以及传参的手机不一致则需要输入验证码
+    if(phone.length == 11 && phone != this.data.mobile && phone != this.data.editMobile){
+      this.setData({
+        show: true
+      })
+    } else if (phone == this.data.mobile || phone != this.data.editMobile){
+      this.setData({
+        show: false
+      })
+    }
   },
   //验证 定时器
   getCode: function (options) {
@@ -255,21 +483,47 @@ Page({
       }
     }, 1000)
   },
+  //发送验证码
   getVerificationCode() {
-    let that = this
-    let time = that.data.currentTime;
-    if (time != 60) {
-      return;
-    }
-    let code_status = that.data.code_status;
-    if (!code_status) {
-      return;
-    }
-    this.getCode();
+    var that = this
+    wx.getStorage({
+      key: 'user',
+      success(res) {
+        wx.request({
+          url: 'https://libo.mx5918.com/api/site/getMessage',
+          data: {
+            uid: res.data.uid,
+            phone: that.data.phone
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success(data) {
+            var result = data.data;
+            if (result.status) {
+              var time = that.data.currentTime;
+              if (time != 60) {
+                return;
+              }
+              var code_status = that.data.code_status;
+              if (!code_status) {
+                return;
+              }
+              that.getCode();
 
-    that.setData({
-      disabled: false,
-      style: "background-color:#dedede;"
+              that.setData({
+                disabled: false,
+                style: "background-color:#dedede;"
+              })
+            } else {
+              wx.showToast({
+                title: '发送失败',
+                image: '../../images/error.png'
+              })
+            }
+          }
+        })
+      }
     })
   },
 })

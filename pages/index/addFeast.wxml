@@ -12,13 +12,13 @@
         </view>
         <view class="feastDays">
           <label>日期：</label>
-          <picker mode="date"  start="{{date}}" bindchange="getFeastDays"  disabled="{{disabled}}">
+          <picker mode="date"  start="{{date}}" bindchange="getFeastDays" disabled="{{disabled}}">
           <input type='text'placeholder="选择日期" placeholder-class='feastInput_placeholder' class="feastInput" value='{{feastDaysText}}'  disabled="true"/>
           </picker>
         </view>
-          <view class="feastBtn" wx:if="{{!modification}}" bindtap='saveBtn'style="{{btn_style}}"><text>保存</text></view>
-          <view class="feastBtn feastBtn_modi" wx:else bindtap='modificationBtn'style="{{btn_style}}"><text>修改</text></view>
-          <view class="feastBtn feastBtn_Del" wx:if="{{Delete}}" bindtap='deleteBtn' style="{{btn_style}}"><text>删除</text></view>
+          <button disabled="{{disabled}}" class="feastBtn" wx:if="{{!modification}}" bindtap='saveBtn' style="{{btn_style}}"><text>保存</text></button>
+          <button disabled="{{disabled}}" class="feastBtn feastBtn_modi" wx:else bindtap='modificationBtn' style="{{btn_style}}"><text>修改</text></button>
+          <button disabled="{{disabled}}" class="feastBtn feastBtn_Del" wx:if="{{del}}" bindtap='deleteBtn' style="{{btn_style}}"><text>删除</text></button>
     </view>
     <view class="addFeastContentImg_bottom addFeastContentImg">
       <image src='../../images/tjlb_biankuan3.png'></image>

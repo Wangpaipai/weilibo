@@ -10,6 +10,7 @@ App({
       success(res) {
       },
       fail:function(){
+        //若无登录信息则跳转到授权页面授权登录
         wx.reLaunch({
           url: '/pages/login/login'
         })

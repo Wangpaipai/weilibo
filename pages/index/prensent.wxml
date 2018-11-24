@@ -14,7 +14,7 @@
           <image class="ic_prensent" src='../../images/qq.png'></image><text class='prensentTitle'>送礼金额</text>
         </view>
         <view class="prensentCountDetText">
-            <text>1552421</text>
+            <text>{{money}}</text>
         </view>
     </view>
     <view class="bg_xian"><image src='../../images/xx.png'></image></view>
@@ -23,21 +23,21 @@
           <image class='ic_prensent' src='../../images/ren.png'></image><text class='prensentTitle'>总人数</text>
         </view>
         <view class="prensentCountDetText">
-            <text>25</text>
+            <text>{{count}}</text>
         </view>
     </view>
   </view>
   <!-- +++++++++++++++++++++ -->
   <scroll-view scroll-y="true" style="height:{{windowHeight}}rpx;"  scroll-into-view="{{toView}}" scroll-top="0">
   <view wx:for="{{userInfo}}" wx:for-item="item"> 
-    <view class="search-english" id="a">
+    <view class="search-english" id="{{item.ENG}}" style="display:{{item.data.length > 0 ? 'block' : 'none'}}">
       {{item.ENG}}
     </view >
-    <view class="search-car" wx:for="{{item.data}}" wx:for-item="this" wx:for-index="{{userInfo.index}}" bindtap="showRequire" >
-      <view class="search_name">{{this.name}}</view>
-      <view class='search_money'>￥{{this.money}}</view>
-      <view class='search_matter'>{{this.matter}}</view>
-      <view class='search_date'>{{this.date}}</view>
+    <view class="search-car" wx:for="{{item.data}}" wx:for-item="give" wx:for-index="{{userInfo.index}}" bindtap="showRequire" data-ctn="{{give}}">
+      <view class="search_name">{{give.name}}</view>
+      <view class='search_money'>￥{{give.money}}</view>
+      <view class='search_matter'>{{give.matter}}</view>
+      <view class='search_date'>{{give.give_time}}</view>
    </view>
     </view>
 </scroll-view>
