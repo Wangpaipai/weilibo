@@ -156,6 +156,7 @@ Page({
         address:that.data.site,
         phone:that.data.phone
       };
+	  //是否需要输入验证码
       if(that.data.show){
         if(that.data.code.length != 6){
           wx.showToast({
