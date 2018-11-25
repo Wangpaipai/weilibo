@@ -204,12 +204,12 @@ Page({
   createGive:function(e){
     var that = this;
     if (checkData(that)) {
-      that.setData({
-        disabled: true
-      })
       wx.getStorage({
         key: 'user',
         success(res) {
+          that.setData({
+            disabled: true
+          })
           wx.request({
             url: 'https://libo.mx5918.com/api/giftgive/giftGiveCreate',
             data: {
@@ -254,12 +254,12 @@ Page({
   modificationBtn: function () {
     var that = this;
     if(checkData(that)){
-      that.setData({
-        disabled: true
-      })
       wx.getStorage({
         key: 'user',
         success(res) {
+          that.setData({
+            disabled: true
+          })
           wx.request({
             url: 'https://libo.mx5918.com/api/giftgive/giftGiveUpdate',
             data: {

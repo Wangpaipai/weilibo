@@ -167,12 +167,12 @@ Page({
           image: '../../images/error.png'
         })
       } else {
-        that.setData({
-          disabled: true
-        })
         wx.getStorage({
           key: 'user',
           success(res) {
+            that.setData({
+              disabled: true
+            })
             wx.request({
               url: 'https://libo.mx5918.com/api/giftreceive/giftReceiveCreate',
               data: {
@@ -235,12 +235,12 @@ Page({
           image: '../../images/error.png'
         })
       } else {
-        that.setData({
-          disabled: true
-        })
         wx.getStorage({
           key: 'user',
           success(res) {
+            that.setData({
+              disabled: true
+            })
             wx.request({
               url: 'https://libo.mx5918.com/api/giftreceive/giftReceiveUpdate',
               data: {

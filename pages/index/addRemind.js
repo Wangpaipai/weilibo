@@ -81,9 +81,6 @@ Page({
   createRemind:function(e){
     var that = this;
     if (checkData(that)) {
-      that.setData({
-        disabled: true
-      })
       //根据情况生成请求参数
       var param = {
         name: that.data.name,
@@ -109,6 +106,9 @@ Page({
       wx.getStorage({
         key: 'user',
         success(res) {
+          that.setData({
+            disabled: true
+          })
           param.uid = res.data.uid;
           wx.request({
             url: 'https://libo.mx5918.com/api/remind/remindCreate',
@@ -146,9 +146,6 @@ Page({
   //修改
   modification:function(){
     var that = this;
-    that.setData({
-      disabled:true
-    })
     if(checkData(that)){
       //根据情况生成请求参数
       var param = {
@@ -176,6 +173,9 @@ Page({
       wx.getStorage({
         key: 'user',
         success(res) {
+          that.setData({
+            disabled: true
+          })
           param.uid = res.data.uid;
           wx.request({
             url: 'https://libo.mx5918.com/api/remind/remindUpdate',
