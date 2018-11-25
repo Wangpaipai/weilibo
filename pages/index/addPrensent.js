@@ -91,9 +91,16 @@ Page({
   },
   //获取关系
   getRelation: function (e) {
-    let val = e.detail.value;
+    var val = e.detail.value;
+    var index = '';
+    for (var i = 0; i < this.data.changeArr.length;i++){
+      if (val == this.data.changeArr[i]){
+        index = i;
+      }
+    }
     this.setData({
-      relation: val
+      relation: val,
+      status:index
     })
   },
   getMatter: function (e) {

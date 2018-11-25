@@ -8,20 +8,12 @@ function checkData(that){
 
   var userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
   var thisName = that.data.name;
-  var phoneNumber = /^1[3|4|5|7|8|9]{1}[0-9]{1}\d{8}$/;
-  var thisPhone = that.data.phone;
   name = that.data.name.length;
   matter = that.data.matter.length;
   days = that.data.days.length;
   if (days == 0 || matter == 0 || name == 0) {
     wx.showToast({
       title: '内容不能为空',
-      image: '../../images/error.png'
-    })
-    return false;
-  } else if (!phoneNumber.test(thisPhone)) {
-    wx.showToast({
-      title: '手机格式不正确',
       image: '../../images/error.png'
     })
     return false;
@@ -34,18 +26,6 @@ function checkData(that){
   } else if (name < 2) {
     wx.showToast({
       title: '姓名格式不正确',
-      image: '../../images/error.png'
-    })
-    return false;
-  } else if (site == 0) {
-    wx.showToast({
-      title: '地址格式不正确',
-      image: '../../images/error.png'
-    })
-    return false;
-  } else if (phone == 0) {
-    wx.showToast({
-      title: '手机格式不正确',
       image: '../../images/error.png'
     })
     return false;
@@ -99,10 +79,10 @@ Page({
   //创建
   createRemind:function(e){
     var that = this;
-    that.setData({
-      disabled: true
-    })
     if (checkData(that)) {
+      that.setData({
+        disabled: true
+      })
       //根据情况生成请求参数
       var param = {
         name: that.data.name,
@@ -304,14 +284,14 @@ Page({
     if(options.remind){
       var remind = JSON.parse(options.remind);
       remind.start_time = remind.start_time.replace(/\./g,"-");
-      phone = remind.phone;
+      phone = remind.phone ? remind.phone : '';
       that.setData({
         name: remind.name,
         days: remind.start_time,
         matter: remind.event, 
         site: remind.address,
-        phone: remind.phone,
-        editMobile: remind.phone,
+        phone: phone,
+        editMobile: phone,
         remind_id: remind.id,
         createShow: false,
         modificationShow: true,

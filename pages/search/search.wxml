@@ -15,7 +15,7 @@
       </view>
   </view>
   <!-- 收礼 -->
-  <view class='shouliTitle' style='display:block'>
+  <view class='shouliTitle' style='display:block' wx:if="{{receive.length}}">
     <view class='sl_title'><text>收礼</text></view>
     <view class="shouli" wx:for="{{receive}}" data-ctn="{{item}}" bindtap='receiveUrl'>
         <view class='sl_img'><text>收</text></view>
@@ -26,7 +26,7 @@
     </view>
   </view>
   <!-- 送礼 -->
-  <view class='songliTitle'>
+  <view class='songliTitle' wx:if="{{give.length}}">
     <view class='sl_title'><text>送礼</text></view>
     <view class="songli" wx:for="{{give}}" data-ctn="{{item}}" bindtap='giveUrl'>
         <view class='sl_img song'><text>送</text></view>

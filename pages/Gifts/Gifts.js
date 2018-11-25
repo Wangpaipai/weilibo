@@ -7,13 +7,13 @@ Page({
   data: {
     name:'',
     money:'',
-    relation:'亲人',
+    relation:'',
     changeArr: ["亲人", "朋友","同学","同事"],
     hidden: false,          //判断是否显示弹框       
     modification: false,     //判断修改按钮是否显示
     Delete: false,          //判断删除按钮是否显示
     disabled: false,
-    status: 0,
+    status: '',
     rt_id:'',//礼薄id
     receive_id:''//收礼id
   },
@@ -42,8 +42,15 @@ Page({
   //获取关系
   getRelation: function (e) {
     let val = e.detail.value;
+    var index = '';
+    for (var i = 0; i < this.data.changeArr.length; i++) {
+      if (val == this.data.changeArr[i]) {
+        index = i;
+      }
+    }
     this.setData({
-      relation: val
+      relation: val,
+      status: index
     })
   },
  relationClick:function(e){
@@ -146,9 +153,6 @@ Page({
   //点击保存
   saveBtn: function () {
     var that = this;
-    that.setData({
-      disabled: true
-    })
     if (this.data.money != "" && this.data.name != "" && this.data.relation!='') {
       let money = /^[0-9]*$/;
       let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
@@ -162,7 +166,10 @@ Page({
           title: '姓名格式有误',
           image: '../../images/error.png'
         })
-      }else{
+      } else {
+        that.setData({
+          disabled: true
+        })
         wx.getStorage({
           key: 'user',
           success(res) {
@@ -214,9 +221,6 @@ Page({
   //点击修改
   modificationBtn: function () {
     var that = this;
-    that.setData({
-      disabled: true
-    })
     if (this.data.money != "" && this.data.name != "" && this.data.relation != '') {
       let money = /^[0-9]*$/;
       let userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
@@ -231,6 +235,9 @@ Page({
           image: '../../images/error.png'
         })
       } else {
+        that.setData({
+          disabled: true
+        })
         wx.getStorage({
           key: 'user',
           success(res) {

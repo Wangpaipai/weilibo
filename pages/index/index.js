@@ -7,7 +7,7 @@ Page({
     matter: "",
     timer:"",
     txHidden:true,
-    remind:{},
+    remind:[],
     banner:[],
     gift_give_total:0,
     gift_receive_total:0,
@@ -47,7 +47,7 @@ Page({
               gift_give_total: result['data']['gift_give_total'],
               gift_receive_total: result['data']['gift_receive_total'],
               ritualthin: result['data']['ritualthin'],
-              remind: result['data']['remind'][0]
+              remind: result['data']['remind']
             });
           }
         })
