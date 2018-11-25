@@ -24,11 +24,11 @@
       <navigator class='tx_det_btn' url='remind' hover-class="none">
         <image src='../../images/tixing.png'></image>
         <!--下面p标签差动画,内容被挤在下面去了-->
-        <p wx:if="{{remind}}" wx:for="{{remind}}" class="remind">
+        <p wx:if="{{remind.length}}" wx:for="{{remind}}" class="remind">
           {{item.name}}(<text class='thisfloat'>{{item.event}} </text>)
           <text> {{item.start_time}}</text>
         </p>
-        <p wx:if="{{!remind}}" class="remind">暂无提醒,快去创建一个吧</p>
+        <p wx:if="{{!remind.length}}" class="remind">暂无提醒,快去创建一个吧</p>
       </navigator>
       <navigator class='addTx' url='addRemind' hover-class="none"><image src='../../images/tjtx.png'></image></navigator>
   </view>

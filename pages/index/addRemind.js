@@ -11,7 +11,8 @@ function checkData(that){
   name = that.data.name.length;
   matter = that.data.matter.length;
   days = that.data.days.length;
-  if (days == 0 || matter == 0 || name == 0) {
+  site = that.data.site.length;
+  if (days == 0 || matter == 0 || name == 0 || site == 0) {
     wx.showToast({
       title: '内容不能为空',
       image: '../../images/error.png'
