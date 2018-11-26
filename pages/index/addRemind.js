@@ -8,10 +8,12 @@ function checkData(that){
 
   var userName = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;
   var thisName = that.data.name;
+  var mobile = /^1[3|4|5|7|8|9]{1}\d{9}$/;
   name = that.data.name.length;
   matter = that.data.matter.length;
   days = that.data.days.length;
   site = that.data.site.length;
+  phone = that.data.phone.length;
   if (days == 0 || matter == 0 || name == 0 || site == 0) {
     wx.showToast({
       title: '内容不能为空',
@@ -30,6 +32,11 @@ function checkData(that){
       image: '../../images/error.png'
     })
     return false;
+  }else if((that.data.show || phone != 0) && !mobile.test(that.data.phone)){
+	wx.showToast({
+	  title: '手机格式不正确',
+	  image: '../../images/error.png'
+	})
   } else {
     return true;
   }
@@ -320,9 +327,13 @@ Page({
           success(data) {
             var result = data.data;
             if (result.status) {
+			  if(!phone){
+				  phone = result.data.phone;
+			  }
               //设置默认手机号码
               that.setData({
-                mobile:result.data.phone
+                mobile:result.data.phone,
+				phone:phone
               })
             }
           }
