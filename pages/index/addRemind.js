@@ -289,11 +289,13 @@ Page({
   onLoad: function (options) {
     var that = this;
     var phone = '';
+	var is_edit = false;
     //获取参数并设置参数
     if(options.remind){
       var remind = JSON.parse(options.remind);
       remind.start_time = remind.start_time.replace(/\./g,"-");
       phone = remind.phone ? remind.phone : '';
+	  is_edit = true;
       that.setData({
         name: remind.name,
         days: remind.start_time,
@@ -327,7 +329,7 @@ Page({
           success(data) {
             var result = data.data;
             if (result.status) {
-			  if(!phone){
+			  if(!phone && !is_edit){
 				  phone = result.data.phone;
 			  }
               //设置默认手机号码
